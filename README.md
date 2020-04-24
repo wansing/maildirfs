@@ -1,9 +1,10 @@
 # maildirfs
 
-A FUSE filesystem which serves a directory and its subdirectories as a Maildir directory.
+A FUSE filesystem which serves a folder as a Maildir.
 
 ## Try it
 
+* build: `go build`
 * start: `./maildirfs source mountpoint`
 * stop: `fusermount -u mountpoint`
 
@@ -12,26 +13,24 @@ A FUSE filesystem which serves a directory and its subdirectories as a Maildir d
 ```
 $ tree source/
 source/
-├── bar
-│   └── Text.txt
 └── foo
-    ├── A Document.pdf
-    └── Hello World.md
+    └── bar
+        ├── A Document.pdf
+        └── Hello World.md
 
 $ tree -a mountpoint/
 mountpoint/
-├── .bar
-│   ├── cur
-│   │   └── 1587719883.Text.txt.localhost:2,S
-│   ├── dovecot-acl
-│   ├── new
-│   └── tmp
 ├── cur
 ├── dovecot-acl
 ├── .foo
 │   ├── cur
-│   │   ├── 1587719860.Hello World.md.localhost:2,S
-│   │   └── 1587719953.A Document.pdf.localhost:2,S
+│   ├── dovecot-acl
+│   ├── new
+│   └── tmp
+├── .foo.bar
+│   ├── cur
+│   │   ├── 1587735520.Hello World.md.localhost:2,S
+│   │   └── 1587735553.A Document.pdf.localhost:2,S
 │   ├── dovecot-acl
 │   ├── new
 │   └── tmp
@@ -50,3 +49,7 @@ mountpoint/
 * refuses to run as root
 * folders in mountpoint have chmod `500`
 * "maildirfolder" file has been omitted because the [Maildir spec](http://www.courier-mta.org/maildir.html) refers to it in context of a mail delivery agent only
+
+## TODO
+
+* add integration steps with overlayfs for index files etc
